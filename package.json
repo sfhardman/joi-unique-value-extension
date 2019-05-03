@@ -1,0 +1,30 @@
+{
+  "name": "joi-unique-value-extension",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "joi": "^14.3.1"
+  },
+  "devDependencies": {
+    "clone": "^2.1.2",
+    "jest": "^24.7.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sfhardman/joi-unique-value-extension"
+  },
+  "bugs": {
+    "url": "https://github.com/sfhardman/joi-unique-value-extension/issues"
+  },
+  "homepage": "https://github.com/sfhardman/joi-unique-value-extension#readme",
+  "keywords": [
+    "joi",
+    "validation"
+  ]
+}
