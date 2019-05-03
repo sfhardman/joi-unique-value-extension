@@ -14,8 +14,8 @@ const Joi = VanillaJoi.extend(uniqueExtensions.uniqueString);
 
 const schema = Joi.object({
   packages: Joi.array().items({
-    // require that packageId must equal the packageId field 
-    // of one of the items in the 'packages' array of the reference data
+    // require that packageId must not collide with the packageId field 
+    // of one of the other items in the 'packages' array of the reference data
     packageId: Joi.string().unique('packages.[].packageId'),
   }),
 });
