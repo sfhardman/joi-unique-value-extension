@@ -46,7 +46,7 @@ describe('Joi-unique-value-extension-string', () => {
   });
   it('passes validation when no duplicate value is supplied', () => {
     const workingData = clone(data);
-    const result = Joi.validate(workingData, schema, { context: workingData });
+    const result = Joi.validate(workingData, schema, { context: { data: workingData } });
     expect(result.error).toBeFalsy();
   });
   it('fails validation when a duplicate value is supplied', () => {
@@ -55,13 +55,13 @@ describe('Joi-unique-value-extension-string', () => {
       id: 2,
       name: 'toyota',
     })
-    const result = Joi.validate(workingData, schema, { context: workingData });
+    const result = Joi.validate(workingData, schema, { context: { data: workingData } });
     expect(result.error).toBeTruthy();
     expect(result.error.name).toBe('ValidationError');
   });
   it('passes validation when no duplicate value is supplied including alternate search path', () => {
     const workingData = clone(data);
-    const result = Joi.validate(workingData, alternateSchema, { context: workingData });
+    const result = Joi.validate(workingData, alternateSchema, { context: { data: workingData } });
     expect(result.error).toBeFalsy();
   });
   it('fails validation when a duplicate value is supplied on alternate search path', () => {
@@ -70,7 +70,7 @@ describe('Joi-unique-value-extension-string', () => {
       id: 3,
       name: 'Datsun',
     })
-    const result = Joi.validate(workingData, alternateSchema, { context: workingData });
+    const result = Joi.validate(workingData, alternateSchema, { context: { data: workingData } });
     expect(result.error).toBeTruthy();
     expect(result.error.name).toBe('ValidationError');
   });  

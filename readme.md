@@ -27,13 +27,13 @@ const referenceData = {
   ],
 };
 
-const pass = Joi.validate(referenceData, schema, { context: referenceData });
+const pass = Joi.validate(referenceData, schema, { context: { data: referenceData } });
 
 console.log(pass.error); // null - no error
 
 referenceData.packages.push({ packageId: 'hapi' });
 
-const fail = Joi.validate(referenceData, schema, { context: referenceData });
+const fail = Joi.validate(referenceData, schema, { context: { data: referenceData } });
 
 console.log(fail.error); //"packageId" '"hapi" was required to be unique, but duplicate found at "packages.2.packageId"'
 
@@ -45,7 +45,7 @@ console.log(fail.error); //"packageId" '"hapi" was required to be unique, but du
 
 Requires that the field value must be unique compared to all other values found at searchPath.
 
-Reference data to search for duplicates in must be supplied to Joi in options.context (e.g. in a call to `Joi.validate(data, schema, options)`) 
+Reference data to search for duplicates in must be supplied to Joi in options.context.data (e.g. in a call to `Joi.validate(data, schema, options)`) 
 
 - `searchPath` - The format of fkPath has dot seperated object fields, with search across an array indicated by a pair of square brackets (`[]`)
 
@@ -89,3 +89,8 @@ const animalSchema = Joi.object({
   })),
 });
 ```
+
+### options
+
+#### options.context.data
+This extension requires that you pass the data that contains the possible duplicates in the ```options.context.data``` parameter to the validate method.  Note that the ```context``` object should not be re-used between calls to validate as it is used to cache lookups for performance reasons.

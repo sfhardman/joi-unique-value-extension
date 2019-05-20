@@ -46,7 +46,7 @@ describe('Joi-unique-value-extension-string', () => {
   });
   it('passes validation when no duplicate value is supplied', () => {
     const workingData = clone(data);
-    const result = Joi.validate(workingData, schema, { context: workingData });
+    const result = Joi.validate(workingData, schema, { context: { data: workingData } });
     expect(result.error).toBeFalsy();
   });
   it('fails validation when a duplicate value is supplied', () => {
@@ -55,13 +55,13 @@ describe('Joi-unique-value-extension-string', () => {
       id: 'toyota',
       name: 'toyota',
     })
-    const result = Joi.validate(workingData, schema, { context: workingData });
+    const result = Joi.validate(workingData, schema, { context: { data: workingData } });
     expect(result.error).toBeTruthy();
     expect(result.error.name).toBe('ValidationError');
   });
   it('passes validation when no duplicate value is supplied including alternate search path', () => {
     const workingData = clone(data);
-    const result = Joi.validate(workingData, alternateSchema, { context: workingData });
+    const result = Joi.validate(workingData, alternateSchema, { context: { data: workingData } });
     expect(result.error).toBeFalsy();
   });
   it('fails validation when a duplicate value is supplied on alternate search path', () => {
@@ -70,8 +70,31 @@ describe('Joi-unique-value-extension-string', () => {
       id: 'datsun',
       name: 'Datsun',
     })
-    const result = Joi.validate(workingData, alternateSchema, { context: workingData });
+    const result = Joi.validate(workingData, alternateSchema, { context: { data: workingData } });
     expect(result.error).toBeTruthy();
     expect(result.error.name).toBe('ValidationError');
   });  
+  it('performs reasonably', () => {
+    const perfSchema = Joi.object({
+      items: Joi.array().items({
+        itemId: Joi.string().unique('items.[].itemId'),
+      }),
+    });
+    const data = {
+      items: [],
+    };
+    const itemCount = 1000;
+    for (let i = 0; i < itemCount; i += 1) {
+      const id = `${10000* Math.random()}`;
+      data.items.push({
+        itemId: id,
+      });
+    }
+    const start = new Date();
+    const result = Joi.validate(data, perfSchema, { context: { data } });
+    const end = new Date();
+    const durationMs = end - start;
+    expect(result.error).toBeFalsy();
+    expect(durationMs).toBeLessThan(500);
+  }); 
 });
