@@ -16,7 +16,7 @@ const getSearchValues = (searchPath, data) => {
     data.forEach(item => result.push(...getSearchValues(getNextPath(searchPathChunks), item)));
     return result;
   }
-  if (!(currentChunk in data)) {
+  if (!data[currentChunk]) {
     return [];
   }
   return getSearchValues(getNextPath(searchPathChunks), data[currentChunk]);
