@@ -1,5 +1,7 @@
 # Joi-unique-value-extension
 
+*This is deprecated - please see instead https://github.com/hermetic-architecture-portal/joi-key-extensions*
+
 This is an extension for the [Joi](https://github.com/hapijs/joi) validation library that allows validation that a field is unique compared to a set of other field values.
 
 ## Usage
